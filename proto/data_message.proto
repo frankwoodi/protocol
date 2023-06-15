@@ -1,14 +1,14 @@
-syntax="proto3"
-package komrade
+syntax="proto3";
+package go_protocol;
 
 
-option go_package = "github.com/fallibilism/protocol/komrade"
+option go_package = "github.com/fallibilism/protocol/go_protocol";
 
 //import "livekit_models.proto"
 
 enum DataMessageType {
-	BOT = 1;
-	USER = 2;
+	BOT = 0;
+	USER = 1;
 }
 
 message DataMessageBody {

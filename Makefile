@@ -1,23 +1,30 @@
-GOPATH="${HOME}/go"
+GOPATH=/go
 PROTO_PATH=proto
-GO_OUT=go_protocol
+REPO=/workspace/protocol
+GO_PROTOCOL=go_protocol
+LIVEKIT_VERSION=@v1.5.7
+PROTOC_GEN_VERSION=@v1.0.1
 PB_REL="https://github.com/protocolbuffers/protobuf/releases"
 
+echo:
+	@echo ${GO_PROTOCOL}
 generate_go: 
 	protoc \
 	-I ${GOPATH}/pkg/mod \
-	-I ${GOPATH}/pkg/mod/github.com/livekit/protocol \
-	-I ${GOPATH}/pkg/mod/github.com/envoyproxy/protoc-gen-validate \
+	-I ${GOPATH}/pkg/mod/github.com/livekit/protocol${LIVEKIT_VERSION} \
+	-I ${GOPATH}/pkg/mod/github.com/envoyproxy/protoc-gen-validate${PROTOC_GEN_VERSION} \
 	--proto_path=${PROTO_PATH} \
 	${PROTO_PATH}/*.proto \
-	--go_out=paths=source_relative:./${GO_PROTOCOL} \
-	--validate_out="lang=go,paths=source_relative:./${GO_PROTOCOL}"
+	--go_out=paths=source_relative:${GO_PROTOCOL} \
+	--validate_out="lang=go,paths=source_relative:${GO_PROTOCOL}"
 
 generate: generate_go
 
 install:
 	sudo apt install -y protobuf-compiler 
 	protoc --version
+	sudo apt-get -y install protoc-gen-go
+
 
 manual_install:
 	curl -LO ${PB_REL}/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
@@ -25,5 +32,10 @@ manual_install:
 	export PATH="${PATH}:${HOME}/.local/bin"
 	rm ./protoc-3.15.8-linux-x86_64.zip
 	protoc --version
+	go install github.com/envoyproxy/protoc-gen-validate
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	export PATH="${PATH}:${GOPATH}/bin"
 version:
 	protoc --version
+	protoc-gen-validate --version
+	protoc-gen-go --version
