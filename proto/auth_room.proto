@@ -1,0 +1,43 @@
+syntax="proto3"
+package komrade
+
+
+option go_package = "github.com/fallibilism/protocol/komrade"
+
+import "livekit_models.proto"
+
+
+
+
+message ActiveRoomInfo {
+	string room_title = 1;
+	string room_id = 2;
+	string sid = 3;
+	uint64 num_of_joined_participants = 4;
+	string webhook_url = 5;
+	string metadata = 6;
+	int64 created_at = 7;
+	string parent_room_id = 8;
+}
+
+message ActiveRoomWithParticipants {
+
+}
+
+message ActiveRoomInfoRequest {
+	string room_id = 1;
+}
+
+message ActiveRoomInfoResponse {
+	bool status = 1;
+	string msg = 2;
+	optional ActiveRoomInfo room_info = 3;
+	repeated livekit.ParticipantInfo = 4
+}
+
+message IsRoomActiveRequest {
+
+}
+
+message IsRoomActiveResponse {
+}
