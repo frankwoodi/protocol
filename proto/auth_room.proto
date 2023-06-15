@@ -4,7 +4,7 @@ package go_protocol;
 
 option go_package = "github.com/fallibilism/protocol/go_protocol";
 
-// import "livekit_models.proto";
+import "livekit_models.proto";
 
 message ActiveRoomInfo {
 	string room_title = 1;
@@ -29,7 +29,7 @@ message ActiveRoomInfoResponse {
 	bool status = 1;
 	string msg = 2;
 	optional ActiveRoomInfo room_info = 3;
-	// repeated livekit.ParticipantInfo participant_info = 4;
+	repeated livekit.ParticipantInfo participant_info = 4;
 }
 
 message IsRoomActiveRequest {
